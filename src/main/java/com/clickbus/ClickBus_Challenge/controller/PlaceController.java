@@ -15,7 +15,7 @@ public class PlaceController {
     @Autowired//This annotaion indicates a Dependency Injection
     private PlaceService placeService;//This attribute will be used to call the methods in class PlaceService
 
-    @GetMapping//Maps this function to GET requests (/places)
+    @GetMapping/*Maps this function to GET requests (/places) || In this requests you can pass some parameters, like: size (sets the number of page elements), sort: (sorts records based on attribute of the class used, in this case, class Place), page(sets page number)*/
     public ResponseEntity<?> getAllPlaces(Pageable pageable){//Receive a Pageable object as a parameter
         return ResponseEntity.ok(this.placeService.getAllPlaces(pageable));//Return a ResponseEntity object as answer
     }
