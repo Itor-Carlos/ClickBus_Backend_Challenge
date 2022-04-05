@@ -1,9 +1,14 @@
 package com.clickbus.ClickBus_Challenge.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class PlaceDTO {
 
+    @NotBlank(message = " The attribute 'name' from the Place class can't be blank ")//check if the name is empty or null
     private String name;
+    @NotBlank(message = " The attribute 'city' from the Place class can't be blank ")//check if the city is empty or null
     private String city;
+    @NotBlank(message = " The attribute 'state' from the Place class can't be blank ")//check if the state is empty or null
     private String state;
 
     public PlaceDTO() {
