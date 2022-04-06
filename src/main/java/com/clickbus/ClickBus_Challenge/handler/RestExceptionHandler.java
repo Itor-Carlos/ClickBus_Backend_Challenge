@@ -16,10 +16,10 @@ public class RestExceptionHandler {
     @ExceptionHandler(PlaceNotFoundException.class)
     public ResponseEntity<PlaceNotFoundExceptionDetails> placeNotFoundException(PlaceNotFoundException placeNotFoundException) {
         PlaceNotFoundExceptionDetails placeNotFoundExceptionDetails = new PlaceNotFoundExceptionDetails(
-                "Place not find in this slug",
                 HttpStatus.NOT_FOUND.value(),
                 LocalDateTime.now(),
-                "PlaceNotFoundException"
+                "PlaceNotFoundException",
+                "Place not find in this slug"
         );
         return new ResponseEntity<>(placeNotFoundExceptionDetails, HttpStatus.NOT_FOUND);
     }
