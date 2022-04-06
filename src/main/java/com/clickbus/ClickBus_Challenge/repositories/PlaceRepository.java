@@ -11,4 +11,7 @@ public interface PlaceRepository extends JpaRepository<Place,Long>, PagingAndSor
 
     //Method to search a specific Place in database, this method receive a slug and use that to search a place
     Place getBySlug(String slugRequest);
+
+    Place save(Place place);
+
 }

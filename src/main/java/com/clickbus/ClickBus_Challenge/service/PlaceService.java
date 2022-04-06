@@ -1,5 +1,12 @@
 package com.clickbus.ClickBus_Challenge.service;
 
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
+import com.clickbus.ClickBus_Challenge.dto.PlaceDTO;
 import com.clickbus.ClickBus_Challenge.exceptions.PlaceNotFoundException;
 import com.clickbus.ClickBus_Challenge.model.Place;
 import com.clickbus.ClickBus_Challenge.repositories.PlaceRepository;
@@ -29,5 +36,14 @@ public class PlaceService {
         else{
             throw new PlaceNotFoundException("Place Not Found");
         }
+    }
+
+    public Place savePlace(PlaceDTO placeDto){
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+        Date dateCreatedAt = Date.from(instant);
+        Date dateUpdateAt = Date.from(instant);
+        Place place = new Place(placeDto.getName(),placeDto.getCity(),placeDto.getState(), dateCreatedAt,dateUpdateAt);
+        return this.placeRepository.save(place);
     }
 }

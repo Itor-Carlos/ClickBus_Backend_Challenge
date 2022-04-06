@@ -1,5 +1,11 @@
 package com.clickbus.ClickBus_Challenge.controller;
 
+import java.net.URI;
+
+import javax.validation.Valid;
+
+import com.clickbus.ClickBus_Challenge.dto.PlaceDTO;
+import com.clickbus.ClickBus_Challenge.model.Place;
 import com.clickbus.ClickBus_Challenge.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,4 +34,12 @@ public class PlaceController {
     public ResponseEntity<?> getBySlug(@PathVariable("slug")String slugRequest){
         return ResponseEntity.ok(this.placeService.getBySlug(slugRequest));//call a method getBySlug in class PlaceService
     }
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> savePlace(@RequestBody @Valid PlaceDTO placeDto){
+        Place savedPlace = this.placeService.savePlace(placeDto);
+        URI locationSavedPlace = URI.create("/places/"+savedPlace.getSlug());
+        return ResponseEntity.created(locationSavedPlace).body(savedPlace);
+    }
+
 }
