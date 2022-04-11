@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,4 +43,9 @@ public class PlaceController {
         return ResponseEntity.created(locationSavedPlace).body(savedPlace);
     }
 
+    @PutMapping("/{slug}")//This method will be used in PUT requets when the url: /places/{slug}
+    public ResponseEntity<?> updatePlace(@RequestBody PlaceDTO placeDto, @PathVariable("slug")String slugRequest){//Receives a PlaceDTO object with the informations from Update and a Slug to search the specific Place
+        Place placeUpdated = this.placeService.updatePlace(placeDto, slugRequest);
+        return ResponseEntity.ok(placeUpdated);
+    }
 }
