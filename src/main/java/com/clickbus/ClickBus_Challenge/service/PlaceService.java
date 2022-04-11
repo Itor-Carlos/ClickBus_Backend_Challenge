@@ -38,6 +38,7 @@ public class PlaceService {
         }
     }
 
+    //This method is gonna used to uptaed a existent Place. In case the Place is not found, throw a PlaceNotFoundException. Case the Place is found, update that Place using the informations sended in the PlaceDTO body in  updatePlace method in PlaceController)
     public Place savePlace(PlaceDTO placeDto){
         LocalDateTime localDateTime = LocalDateTime.now();
         Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
@@ -45,5 +46,32 @@ public class PlaceService {
         Date dateUpdateAt = Date.from(instant);
         Place place = new Place(placeDto.getName(),placeDto.getCity(),placeDto.getState(), dateCreatedAt,dateUpdateAt);
         return this.placeRepository.save(place);
+    }
+    
+    //This method will be used to realize a update in a specific Place (in case its exists). Case the specific Place search not exists, throws a PlaceNotFoundException. Case the searched Place exists, realize a updated 
+    public Place updatePlace(PlaceDTO placeDto, String slugRequest){//Receives a PlaceDto body with the informations for Update and Receives a Slug that will be used to search in the database
+        Place place = this.getBySlug(slugRequest);//Search the Place in database
+        String placeSlug = place.getSlug();//get a slug from the Place searched before
+
+        if(placeDto.getName() != null){
+            placeSlug = placeSlug.replaceAll(place.getName().toLowerCase(), placeDto.getName().toLowerCase());//Replace the part with old Name of Place for a new Name of Place in the placeSlug
+            place.setName(placeDto.getName());//change the value of property Name of Place for a value of property Name in placeDto
+        }
+        if(placeDto.getCity() != null){
+            placeSlug = placeSlug.replaceAll(place.getCity().toLowerCase(), placeDto.getCity().toLowerCase());
+            place.setCity(placeDto.getCity());//change the value of property Name of Place for a value of property Name in placeDto
+        }
+        if(placeDto.getState() != null){
+            placeSlug = placeSlug.replaceAll(place.getState().toLowerCase(), placeDto.getState().toLowerCase());
+            place.setState(placeDto.getState());//change the value of property Name of Place for a value of property Name in placeDto
+        }
+        
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+        Date dateUpdateAt = Date.from(instant);
+        
+        place.setSlug(placeSlug);//set the new Slug for the existent Place
+        place.setUpdateAt(dateUpdateAt);//set the dateUpdatedAt for the existent Place
+        return this.placeRepository.save(place);//Save the updated Place in database (in this case, will just update the old Place)
     }
 }
