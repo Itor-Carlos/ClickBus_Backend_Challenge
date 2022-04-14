@@ -74,4 +74,10 @@ public class PlaceService {
         place.setUpdateAt(dateUpdateAt);//set the dateUpdatedAt for the existent Place
         return this.placeRepository.save(place);//Save the updated Place in database (in this case, will just update the old Place)
     }
+
+    public void deletePlaceBySlug(String slugRequest){//This method will be used to delete Place. If the Place is found, it will be deleted. If not, an exception of type PlaceNotFoundExcpetion will be thrown.
+        Place place = this.getBySlug(slugRequest);//Realize a search in the database searching the Place using the slugRequest parameter 
+        this.placeRepository.delete(place);//call the method delete from interface PlaceRepository
+    }
+
 }
