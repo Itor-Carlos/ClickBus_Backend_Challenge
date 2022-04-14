@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,5 +48,11 @@ public class PlaceController {
     public ResponseEntity<?> updatePlace(@RequestBody PlaceDTO placeDto, @PathVariable("slug")String slugRequest){//Receives a PlaceDTO object with the informations from Update and a Slug to search the specific Place
         Place placeUpdated = this.placeService.updatePlace(placeDto, slugRequest);
         return ResponseEntity.ok(placeUpdated);
+    }
+
+    @DeleteMapping("/{slug}")//This method will be used in DELETE requests when the URL: /places/{slug} || This method is gonna return a Http Status code 200 or a return a ResponseEntity with PlaceNotFoundExceptionDetails in your body
+    public ResponseEntity<?> deletePlaceBySlug(@PathVariable("slug")String slugRequest){
+        this.placeService.deletePlaceBySlug(slugRequest);//call the method deletePlaceBySlug
+        return ResponseEntity.ok().build();//return a Http Status code 200
     }
 }
