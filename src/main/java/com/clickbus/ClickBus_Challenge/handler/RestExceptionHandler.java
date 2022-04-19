@@ -3,6 +3,9 @@ package com.clickbus.ClickBus_Challenge.handler;
 import com.clickbus.ClickBus_Challenge.exceptions.PlaceFieldNotValidExceptionDetails;
 import com.clickbus.ClickBus_Challenge.exceptions.PlaceNotFoundException;
 import com.clickbus.ClickBus_Challenge.exceptions.PlaceNotFoundExceptionDetails;
+import com.clickbus.ClickBus_Challenge.exceptions.PlaceAlredyExistExceptionDetails;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -51,5 +55,11 @@ public class RestExceptionHandler {
         );
 
         return new ResponseEntity<>(placeFieldNotValidExceptionDetails,HttpStatus.BAD_REQUEST);//return a ResponseEntity with STATUS CODE equals 400
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)//This annotation indicates that method will be handle exceptions of type DataIntegrityViolationException
+    public ResponseEntity<PlaceAlredyExistExceptionDetails> handlePlaceAlredyExist(){//That method return a ResponseEntity with a PlaceAlredyExistExceptionDetails in your body
+        PlaceAlredyExistExceptionDetails placeSlugAlredyExistExceptionDetails = new PlaceAlredyExistExceptionDetails(HttpStatus.CONFLICT.value(), LocalDateTime.now(), "DataIntegrityViolationException", "This Place alredy exist in database");
+        return new ResponseEntity<>(placeSlugAlredyExistExceptionDetails,HttpStatus.CONFLICT);//return statement
     }
 }
