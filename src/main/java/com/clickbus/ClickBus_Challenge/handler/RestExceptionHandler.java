@@ -58,7 +58,7 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<PlaceAlredyExistExceptionDetails> handlePlaceSlugAlredyExist(){
+    public ResponseEntity<PlaceAlredyExistExceptionDetails> handlePlaceAlredyExist(){
         PlaceAlredyExistExceptionDetails placeSlugAlredyExistExceptionDetails = new PlaceAlredyExistExceptionDetails(HttpStatus.CONFLICT.value(), LocalDateTime.now(), "DataIntegrityViolationException", "This Place alredy exist in database");
         return new ResponseEntity<>(placeSlugAlredyExistExceptionDetails,HttpStatus.CONFLICT);
     }
