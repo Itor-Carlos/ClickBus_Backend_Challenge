@@ -57,9 +57,9 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(placeFieldNotValidExceptionDetails,HttpStatus.BAD_REQUEST);//return a ResponseEntity with STATUS CODE equals 400
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<PlaceAlredyExistExceptionDetails> handlePlaceAlredyExist(){
+    @ExceptionHandler(DataIntegrityViolationException.class)//This annotation indicates that method will be handle exceptions of type DataIntegrityViolationException
+    public ResponseEntity<PlaceAlredyExistExceptionDetails> handlePlaceAlredyExist(){//That method return a ResponseEntity with a PlaceAlredyExistExceptionDetails in your body
         PlaceAlredyExistExceptionDetails placeSlugAlredyExistExceptionDetails = new PlaceAlredyExistExceptionDetails(HttpStatus.CONFLICT.value(), LocalDateTime.now(), "DataIntegrityViolationException", "This Place alredy exist in database");
-        return new ResponseEntity<>(placeSlugAlredyExistExceptionDetails,HttpStatus.CONFLICT);
+        return new ResponseEntity<>(placeSlugAlredyExistExceptionDetails,HttpStatus.CONFLICT);//return statement
     }
 }
