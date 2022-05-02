@@ -1,6 +1,11 @@
 package com.clickbus.ClickBus_Challenge.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -8,6 +13,9 @@ import com.clickbus.ClickBus_Challenge.dto.PlaceDTO;
 import com.clickbus.ClickBus_Challenge.model.Place;
 import com.clickbus.ClickBus_Challenge.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +37,22 @@ public class PlaceController {
 
     @GetMapping/*Maps this function to GET requests (/places) || In this requests you can pass some parameters, like: size (sets the number of page elements), sort: (sorts records based on attribute of the class used, in this case, class Place), page(sets page number)*/
     public ResponseEntity<?> getAllPlaces(Pageable pageable){//Receive a Pageable object as a parameter
-        return ResponseEntity.ok(this.placeService.getAllPlaces(pageable));//Return a ResponseEntity object as answer
+       Page pageRequest = this.placeService.getAllPlaces(pageable);
+       List<Place> lista = pageRequest.getContent();
+       for(Place element: lista){
+           String slugElement = element.getSlug();
+           element.add(linkTo(methodOn(PlaceController.class).getBySlug(slugElement)).withSelfRel());
+       }
+       pageRequest = new PageImpl<>(lista, pageable, lista.size());
+       return ResponseEntity.ok(pageRequest);
     }
 
     @GetMapping(path = "/{slug}",produces = MediaType.APPLICATION_JSON_VALUE)//This method will be used in GET requests when the path has "/{slug}
     public ResponseEntity<?> getBySlug(@PathVariable("slug")String slugRequest){
-        return ResponseEntity.ok(this.placeService.getBySlug(slugRequest));//call a method getBySlug in class PlaceService
+        Pageable pageable = PageRequest.ofSize(5);//Make a Pageable object 
+        Place placeReturned = this.placeService.getBySlug(slugRequest);//search a Place usign field Slug what parameter
+        placeReturned.add(linkTo(methodOn(PlaceController.class).getAllPlaces(pageable)).withRel("List Places:"));//add a relationship: pass the request to return all places
+        return ResponseEntity.ok(placeReturned);//statement return
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)

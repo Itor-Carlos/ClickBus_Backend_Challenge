@@ -1,14 +1,20 @@
 package com.clickbus.ClickBus_Challenge.model;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.springframework.hateoas.RepresentationModel;
+
 import java.util.Date;
 
 @Entity
 @Table(name = "places")
-public class Place {
+public class Place extends RepresentationModel<Place>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     @Column(unique = false,nullable = false,length = 60)
