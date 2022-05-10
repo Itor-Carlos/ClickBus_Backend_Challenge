@@ -119,6 +119,15 @@ public class PlaceController {
         return ResponseEntity.ok(placeUpdated);
     }
 
+    @Operation(summary = "Delete a specific Place in database")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Deleted Place", content = {
+            @Content(mediaType = "application/json")
+        }),
+        @ApiResponse(responseCode = "404", description = "Place not found in this Slug", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = PlaceNotFoundExceptionDetails.class))
+        })
+    })
     @DeleteMapping("/{slug}")//This method will be used in DELETE requests when the URL: /places/{slug} || This method is gonna return a Http Status code 200 or a return a ResponseEntity with PlaceNotFoundExceptionDetails in your body
     public ResponseEntity<?> deletePlaceBySlug(@PathVariable("slug")String slugRequest){
         this.placeService.deletePlaceBySlug(slugRequest);//call the method deletePlaceBySlug
