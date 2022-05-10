@@ -28,6 +28,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController //This annotation indicates that class is a RestController, which means it is a Controller
 @RequestMapping("/places")//This annotation is used to map web requests, in this case, all requests will contain /places
 public class PlaceController {
@@ -35,6 +41,12 @@ public class PlaceController {
     @Autowired//This annotaion indicates a Dependency Injection
     private PlaceService placeService;//This attribute will be used to call the methods in class PlaceService
 
+    @Operation(summary = "Get All Places in database")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "List of Places", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))
+        })
+    })
     @GetMapping/*Maps this function to GET requests (/places) || In this requests you can pass some parameters, like: size (sets the number of page elements), sort: (sorts records based on attribute of the class used, in this case, class Place), page(sets page number)*/
     public ResponseEntity<?> getAllPlaces(Pageable pageable){//Receive a Pageable object as a parameter
        Page pageRequest = this.placeService.getAllPlaces(pageable);
