@@ -10,6 +10,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.clickbus.ClickBus_Challenge.dto.PlaceDTO;
+import com.clickbus.ClickBus_Challenge.exceptions.PlaceNotFoundExceptionDetails;
 import com.clickbus.ClickBus_Challenge.model.Place;
 import com.clickbus.ClickBus_Challenge.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,15 @@ public class PlaceController {
        return ResponseEntity.ok(pageRequest);
     }
 
+    @Operation(summary = "Search a specific Place in database usign Slug as a")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Place found", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = Place.class))
+        }),
+        @ApiResponse(responseCode = "404", description = "Place not found", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = PlaceNotFoundExceptionDetails.class))
+        })
+    })
     @GetMapping(path = "/{slug}",produces = MediaType.APPLICATION_JSON_VALUE)//This method will be used in GET requests when the path has "/{slug}
     public ResponseEntity<?> getBySlug(@PathVariable("slug")String slugRequest){
         Pageable pageable = PageRequest.ofSize(5);//Make a Pageable object 
