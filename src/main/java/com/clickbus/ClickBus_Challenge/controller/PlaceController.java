@@ -10,6 +10,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.clickbus.ClickBus_Challenge.dto.PlaceDTO;
+import com.clickbus.ClickBus_Challenge.exceptions.PlaceAlredyExistExceptionDetails;
+import com.clickbus.ClickBus_Challenge.exceptions.PlaceFieldNotValidExceptionDetails;
 import com.clickbus.ClickBus_Challenge.exceptions.PlaceNotFoundExceptionDetails;
 import com.clickbus.ClickBus_Challenge.model.Place;
 import com.clickbus.ClickBus_Challenge.service.PlaceService;
@@ -77,6 +79,18 @@ public class PlaceController {
         return ResponseEntity.ok(placeReturned);//statement return
     }
 
+    @Operation(summary = "Save a Place in database. Ignore 'links' property")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Place created", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = Place.class))
+        }),
+        @ApiResponse(responseCode = "400", description = "Place Field NOT Valid", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = PlaceFieldNotValidExceptionDetails.class))
+        }),
+        @ApiResponse(responseCode = "409", description = "Place Alredy Exist", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = PlaceAlredyExistExceptionDetails.class))
+        }) 
+    })
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> savePlace(@RequestBody @Valid PlaceDTO placeDto){
         Place savedPlace = this.placeService.savePlace(placeDto);
