@@ -98,6 +98,21 @@ public class PlaceController {
         return ResponseEntity.created(locationSavedPlace).body(savedPlace);
     }
 
+    @Operation(summary = "Edit a existent Place. Ignore 'links' property")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Changed Place", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = Place.class))
+        }),
+        @ApiResponse(responseCode = "400", description = "Place Field Not Valid. Operation cannot continue", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = PlaceFieldNotValidExceptionDetails.class))
+        }),
+        @ApiResponse(responseCode = "404", description = "Place not found in this Slug. Operation cannot continue", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = PlaceNotFoundExceptionDetails.class))
+        }),
+        @ApiResponse(responseCode = "409", description = "This Place alredy exist in database. Operation cannot continue", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = PlaceAlredyExistExceptionDetails.class))
+        })
+    })
     @PutMapping("/{slug}")//This method will be used in PUT requets when the url: /places/{slug}
     public ResponseEntity<?> updatePlace(@RequestBody PlaceDTO placeDto, @PathVariable("slug")String slugRequest){//Receives a PlaceDTO object with the informations from Update and a Slug to search the specific Place
         Place placeUpdated = this.placeService.updatePlace(placeDto, slugRequest);
