@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 import com.clickbus.ClickBus_Challenge.dto.PlaceDTO;
 import com.clickbus.ClickBus_Challenge.exceptions.PlaceNotFoundException;
@@ -78,6 +79,10 @@ public class PlaceService {
     public void deletePlaceBySlug(String slugRequest){//This method will be used to delete Place. If the Place is found, it will be deleted. If not, an exception of type PlaceNotFoundExcpetion will be thrown.
         Place place = this.getBySlug(slugRequest);//Realize a search in the database searching the Place using the slugRequest parameter 
         this.placeRepository.delete(place);//call the method delete from interface PlaceRepository
+    }
+
+    public List<Place> searchPlaces(Long id, String name, String state, String city, String slug){
+       return this.placeRepository.searchPlaces(id, name, state, city, slug);
     }
 
 }
