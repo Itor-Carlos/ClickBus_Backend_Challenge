@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -132,5 +133,11 @@ public class PlaceController {
     public ResponseEntity<?> deletePlaceBySlug(@PathVariable("slug")String slugRequest){
         this.placeService.deletePlaceBySlug(slugRequest);//call the method deletePlaceBySlug
         return ResponseEntity.ok().build();//return a Http Status code 200
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Place>> searchPlaces(@RequestParam(value = "id", required = false) Long id,@RequestParam(value = "name",required = false) String name ,@RequestParam(value = "state", required = false) String state, @RequestParam(value = "city", required = false) String city, @RequestParam(value = "slug", required = false) String slug){
+        List<Place> resultList = this.placeService.searchPlaces(id, name, state, city, slug);
+        return ResponseEntity.ok(resultList);
     }
 }

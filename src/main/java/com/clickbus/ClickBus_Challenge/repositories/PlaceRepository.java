@@ -1,6 +1,9 @@
 package com.clickbus.ClickBus_Challenge.repositories;
 
 import com.clickbus.ClickBus_Challenge.model.Place;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -13,5 +16,7 @@ public interface PlaceRepository extends JpaRepository<Place,Long>, PagingAndSor
     Place getBySlug(String slugRequest);
 
     Place save(Place place);
+
+    List<Place> searchPlaces(Long id, String name, String state, String city, String slug);
 
 }
