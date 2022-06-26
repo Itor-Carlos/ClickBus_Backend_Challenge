@@ -15,9 +15,9 @@ Simple challenge to test my skills on building APIs
 
 - Save a Place
 - Get all Places
-- Get a specific Place
-- Uptade a specific Place
-- Delete a specific Place
+- Get Place
+- Uptade Place
+- Delete Place
 - Search Places
 
 ## Requirements
