@@ -10,6 +10,7 @@ Simple challenge to test my skills on building APIs
 - OpenSwagger
 - H2
 - JUnit
+- Hibernate
 
 ## Features
 
