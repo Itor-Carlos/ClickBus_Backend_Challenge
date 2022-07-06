@@ -31,7 +31,5 @@ Simple challenge to test my skills on building APIs
 
 ## This API will be modified in the future
 
-  + CORS configuration
-  + Profiles (test,dev)
   + Unit Tests and Integration Tests
   + Docker
