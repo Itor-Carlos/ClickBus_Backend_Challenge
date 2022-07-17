@@ -1,5 +1,5 @@
 # ClickBus_Backend_Challenge
-Simple challenge to test my skills on building APIs
+Simple challenge to test my skills on building APIs (not complet yet)
 
 ## Technologies
  
