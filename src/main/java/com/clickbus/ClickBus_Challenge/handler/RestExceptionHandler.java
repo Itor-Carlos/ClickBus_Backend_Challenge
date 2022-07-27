@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@RestControllerAdvice//Is to catch exceptions thrown by all controllers annotated with @RestController or @ControllerAdvice
+@RestControllerAdvice(basePackages = "com.clickbus.ClickBus_Challenge.controller")//Is to catch exceptions thrown by all controllers annotated with @RestController or @ControllerAdvice
 public class RestExceptionHandler {
 
     //This method is gonna catch a Exceptions of type PlaceNotFoundException and return a ResponseEntity<PlaceNotFoundExceptionDetails> with the informations about the exception
