@@ -9,8 +9,7 @@ Simple challenge to test my skills on building APIs (not complet yet)
 - JPA
 - OpenSwagger
 - H2
-- JUnit
-- Hibernate
+
 
 ## Features
 
