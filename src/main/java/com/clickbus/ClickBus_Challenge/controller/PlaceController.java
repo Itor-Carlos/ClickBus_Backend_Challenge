@@ -63,7 +63,7 @@ public class PlaceController {
        return ResponseEntity.ok(pageRequest);
     }
 
-    @Operation(summary = "Search a specific Place in database usign Slug as a")
+    @Operation(summary = "Search a specific Place in database usign Slug as parameter")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Place found", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = Place.class))
